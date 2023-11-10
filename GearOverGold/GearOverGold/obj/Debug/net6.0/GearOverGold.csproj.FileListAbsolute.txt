@@ -1,0 +1,14 @@
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\bin\Debug\net6.0\GearOverGold.exe
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\bin\Debug\net6.0\GearOverGold.deps.json
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\bin\Debug\net6.0\GearOverGold.runtimeconfig.json
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\bin\Debug\net6.0\GearOverGold.dll
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\bin\Debug\net6.0\GearOverGold.pdb
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\obj\Debug\net6.0\GearOverGold.GeneratedMSBuildEditorConfig.editorconfig
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\obj\Debug\net6.0\GearOverGold.AssemblyInfoInputs.cache
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\obj\Debug\net6.0\GearOverGold.AssemblyInfo.cs
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\obj\Debug\net6.0\GearOverGold.csproj.CoreCompileInputs.cache
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\obj\Debug\net6.0\GearOverGold.dll
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\obj\Debug\net6.0\refint\GearOverGold.dll
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\obj\Debug\net6.0\GearOverGold.pdb
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\obj\Debug\net6.0\GearOverGold.genruntimeconfig.cache
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\obj\Debug\net6.0\ref\GearOverGold.dll
