@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "GqUsitnBwtTU9J5NpfILLUf76zaPS1vTsI6ubGxhTzzNAHaJ9J+CBaND7a5iIHPPslgNaztZB8FSuh3OW32JHw==",
+  "dgSpecHash": "M7c6QNb9Zyzzh/49VMJHY65z7ukj94hb+ENzG3/l3/hm9sn/o5FVyIZcIWrPyXpNj+lnrUnvxjO7K4bD3A9MRA==",
   "success": true,
   "projectFilePath": "D:\\StudyUnity\\SpartaCodingClub\\GearOverGold\\GearOverGold\\GearOverGold\\GearOverGold.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\ansdn\\.nuget\\packages\\consoletables\\2.6.1\\consoletables.2.6.1.nupkg.sha512"
+  ],
   "logs": []
 }

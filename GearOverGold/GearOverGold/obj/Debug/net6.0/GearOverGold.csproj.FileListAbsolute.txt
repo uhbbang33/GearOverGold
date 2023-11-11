@@ -12,3 +12,6 @@ D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\obj\Debug\
 D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\obj\Debug\net6.0\GearOverGold.pdb
 D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\obj\Debug\net6.0\GearOverGold.genruntimeconfig.cache
 D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\obj\Debug\net6.0\ref\GearOverGold.dll
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\bin\Debug\net6.0\ConsoleTables.dll
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\obj\Debug\net6.0\GearOverGold.csproj.AssemblyReference.cache
+D:\StudyUnity\SpartaCodingClub\GearOverGold\GearOverGold\GearOverGold\obj\Debug\net6.0\GearOverGold.csproj.CopyComplete
