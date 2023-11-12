@@ -8,7 +8,7 @@ namespace GearOverGold
 {
     internal class Gear
     {
-        public string Name { get; }
+        public string Name { get; set; }
         public int Price { get; }
         public int RequiredLevel { get; }
         public int IncreaseAttackPower { get; }
@@ -34,20 +34,13 @@ namespace GearOverGold
 
         string IncreaseAbility()
         {
-            string gearAbility = "- " + Name + "  " + Price;
-            if (IncreaseAttackPower != 0)   gearAbility += (" |공격력 +" + IncreaseAttackPower);
-            if (IncreaseDefensePower != 0)  gearAbility += (" |방어력 +" + IncreaseDefensePower);
-            if (IncreaseMaxHp != 0)         gearAbility += (" |최대 HP +" + IncreaseMaxHp);
-            gearAbility += "|\t";
-            gearAbility += Description;
+            string gearAbility = "";//"- " + Name + "  " + Price;
+            if (IncreaseAttackPower != 0)   gearAbility += (" 공격력 +" + IncreaseAttackPower);
+            if (IncreaseDefensePower != 0)  gearAbility += (" 방어력 +" + IncreaseDefensePower);
+            if (IncreaseMaxHp != 0)         gearAbility += (" 최대 HP +" + IncreaseMaxHp);
+            //gearAbility += Description;
 
             return gearAbility;
-        }
-
-        public void Equip(Character player)
-        {
-            IsEquip = true;
-            // E 붙음
         }
     }
 }

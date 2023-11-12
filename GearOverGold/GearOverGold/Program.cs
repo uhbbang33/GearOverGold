@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using ConsoleTables;
+using System.Data;
 using System.Numerics;
 
 namespace GearOverGold
@@ -15,15 +16,42 @@ namespace GearOverGold
             InitializeWindow();
             GameIntro();
 
-            gearsInStore = new List<Gear>
-            {
-                new Gear("무쇠갑옷", 100, 0, 0, 5, 0, "무쇠로 만들어져 튼튼한 갑옷입니다."),
-                new Gear("낡은 검", 100, 0, 2, 0, 0, "쉽게 볼 수 있는 낡은 검 입니다.")
-            };
-
             player = PlayerIntialize();
 
-            ChooseMenu();
+            gearsInStore = new List<Gear>
+            {
+                new Gear("무쇠갑옷", 50, 0, 0, 5, 0, "무쇠로 만들어져 튼튼한 갑옷입니다."),
+                new Gear("낡은 검", 50, 0, 5, 0, 0, "쉽게 볼 수 있는 낡은 검 입니다."),
+                new Gear("은행나무 완드", 100, 0, 5, 0, 0, "쉽게 볼 수 있는 은행나무로 만들었습니다."),
+                new Gear("쇠 방패", 100, 0, 2, 3, 0, "무겁지만 공격도 가능합니다."),
+                new Gear("편한 옷", 100, 0, 0, 3, 10, "잠옷처럼 편합니다.")
+            };
+
+            while (true)
+            {
+                DrawMenuSelectBox();
+
+                int menuNum = SelectMenu();
+                switch (menuNum)
+                {
+                    case 0:
+                        CheckStatus();
+                        break;
+                    case 1:
+                        Inventory();
+                        break;
+                    case 2:
+                        Store();
+                        break;
+                    case 3:
+                        Console.SetCursorPosition(75, 35);
+                        Console.Write("업데이트 예정입니다!");
+                        Thread.Sleep(1000);
+                        continue;
+                    default:
+                        continue;
+                }
+            }
         }
         
         static void InitializeWindow()
@@ -63,7 +91,7 @@ namespace GearOverGold
             string name = Console.ReadLine();
 
             DrawOccupationSelectBox();
-            int occupation = OccupationSelect();
+            int occupation = SelectOccupation();
 
             return new Character(name, occupation - 1);
         }
@@ -127,7 +155,25 @@ namespace GearOverGold
             Console.WriteLine("마법사 : 공격력 높음, 방어력 HP 낮음");
         }
 
-        static int OccupationSelect()
+        static void DrawMenuSelectBox()
+        {
+            Console.Clear();
+            DrawSquare(0, windowWidth / 2 - 3, 0, windowHeight / 2 - 2); //1
+            DrawSquare(windowWidth / 2, windowWidth - 4, 0, windowHeight / 2 - 2); //2
+            DrawSquare(0, windowWidth / 2 - 3, windowHeight / 2, windowHeight - 2); // 3
+            DrawSquare(windowWidth / 2, windowWidth - 4, windowHeight / 2, windowHeight - 2); //4
+
+            Console.SetCursorPosition(23, 9);
+            Console.Write("상태보기");
+            Console.SetCursorPosition(81, 9);
+            Console.Write("인벤토리");
+            Console.SetCursorPosition(23, 29);
+            Console.Write("상점가기");
+            Console.SetCursorPosition(81, 29);
+            Console.Write("던전가기");
+        }
+
+        static int SelectOccupation()
         {
             ConsoleKeyInfo keyInfo;
 
@@ -159,25 +205,7 @@ namespace GearOverGold
             return occupationNum % 3 + 1;
         }
 
-        static void DrawMenuSelectBox()
-        {
-            Console.Clear();
-            DrawSquare(0, windowWidth / 2 - 3, 0, windowHeight / 2 - 2); //1
-            DrawSquare(windowWidth / 2, windowWidth - 4, 0, windowHeight / 2 - 2); //2
-            DrawSquare(0, windowWidth / 2 - 3, windowHeight / 2, windowHeight - 2); // 3
-            DrawSquare(windowWidth / 2, windowWidth - 4, windowHeight / 2, windowHeight - 2); //4
-
-            Console.SetCursorPosition(23, 9);
-            Console.Write("상태보기");
-            Console.SetCursorPosition(81, 9);
-            Console.Write("인벤토리");
-            Console.SetCursorPosition(23, 29);
-            Console.Write("상점가기");
-            Console.SetCursorPosition(81, 29);
-            Console.Write("던전가기");
-        }
-
-        static int MenuSelect()
+        static int SelectMenu()
         {
             ConsoleKeyInfo keyInfo;
 
@@ -199,38 +227,21 @@ namespace GearOverGold
                 if (keyInfo.Key == ConsoleKey.RightArrow)
                     ++occupationNum;
                 else if (keyInfo.Key == ConsoleKey.LeftArrow)
-                    --occupationNum;
-
-                if (occupationNum % 4 == 0) { xPos = 21; yPos = 9; }
-                else if (occupationNum % 4 == 1) { xPos = 79; yPos = 9; }
-                else if (occupationNum % 4 == 2) { xPos = 21; yPos = 29; }
+                {
+                    if (occupationNum == 0)
+                        occupationNum = 3;
+                    else
+                        --occupationNum;
+                }
+                occupationNum %= 4;
+                if (occupationNum == 0) { xPos = 21; yPos = 9; }
+                else if (occupationNum == 1) { xPos = 79; yPos = 9; }
+                else if (occupationNum == 2) { xPos = 21; yPos = 29; }
                 else { xPos = 79; yPos = 29; }
             }
             while (keyInfo.Key != ConsoleKey.Enter);
 
             return occupationNum % 4;
-        }
-
-        static void ChooseMenu()
-        {
-            DrawMenuSelectBox();
-
-            int menuNum = MenuSelect();
-            switch (menuNum)
-            {
-                case 0:
-                    CheckStatus();
-                    break;
-                case 1:
-                    Inventory();
-                    break;
-                case 2:
-                    Store();
-                    break;
-                default:
-                    ChooseMenu();
-                    break;
-            }
         }
 
         static void CheckStatus()
@@ -271,67 +282,73 @@ namespace GearOverGold
             Console.SetCursorPosition(windowWidth / 3 + 1, 12);
             Console.WriteLine("방어력:\t" + player.DefensePower);
             Console.SetCursorPosition(windowWidth / 3 + 1, 14);
-            Console.WriteLine("체력:\t" + player.HP);
+            Console.WriteLine("체력:\t" + player.MaxHP);
             Console.SetCursorPosition(windowWidth / 3 + 1, 16);
             Console.WriteLine("Gold:\t" + player.Gold);
 
+            Console.SetCursorPosition(1, windowHeight / 4 * 3 + 2);
+            Console.Write("\n 뒤로가기: Enter");
+
             Console.ReadLine();
-            ChooseMenu();
         }
 
         static void Inventory()
         {
             Console.Clear();
-            Console.WriteLine("인벤토리\n");
-            Console.WriteLine("[아이템 목록]");
+
+            ConsoleTable table = new ConsoleTable("     이 름     ", "           능 력           ", "                      설 명                      ");
 
             for (int i = 0; i < player.Gears.Count; ++i)
-                Console.WriteLine(player.Gears[i].Name + "\t"
-                    + player.Gears[i].Info + "\n");
+                    table.AddRow(player.Gears[i].Name, player.Gears[i].Info, player.Gears[i].Description);
+                table.Write();
 
-            Console.WriteLine("\n0. 나가기");
-            Console.WriteLine("1. 장비 장착 및 해제");
-            Console.Write(">> ");
-            int num = Console.ReadLine()[0];
+            Console.Write("\n 장착: Enter\n 뒤로가기: ESC");
 
-            if (num == '0') ChooseMenu();
-            else if (num == '1') {
-                GearEquip();
-            }
-        }
+            ConsoleKeyInfo keyInfo;
 
-        static void GearEquip()
-        {
-            Console.Clear();
-            Console.WriteLine("인벤토리\n");
-            Console.WriteLine("[아이템 목록]");
-            for (int i = 0; i < player.Gears.Count; ++i)
-                Console.WriteLine(player.Gears[i].Name + "\t"
-                    + player.Gears[i].Info + "\n");
-
-            Console.WriteLine("취소: 0");
-            Console.WriteLine("장착하거나 해제할 장비의 번호를 입력해주세요: ");
-            
-            int equipNum = int.Parse(Console.ReadLine())-1;
-            
-            if (equipNum == 0)
-                Inventory();
-            else
+            int gearSelectNum = 0;
+            int xPos = 103;
+            int yPos = 3;
+            do
             {
-                Gear selectedGear = player.Gears[equipNum];
+                // 그리기
+                Console.SetCursorPosition(xPos, yPos);
+                if (player.Gears.Count > 0)
+                    Console.Write("◀");
 
-                if (selectedGear.IsEquip)
+                keyInfo = Console.ReadKey();
+
+                // 지우기
+                Console.SetCursorPosition(xPos, yPos);
+                Console.Write("  ");
+
+                if (keyInfo.Key == ConsoleKey.DownArrow)
+                    ++gearSelectNum;
+                else if (keyInfo.Key == ConsoleKey.UpArrow)
                 {
-                    player.ReduceAbilityFromGear(selectedGear);
-                    
-                    //안 뜸
-                    Console.WriteLine(selectedGear.Name + "의 장착해제가 완료되었습니다!");
+                    if (gearSelectNum == 0)
+                        gearSelectNum = table.Rows.Count - 1;
+                    else
+                        --gearSelectNum;
                 }
-                else
-                {
-                    player.AddAbilityFromGear(selectedGear);
-                    Console.WriteLine(selectedGear.Name + "의 장착이 완료되었습니다!");
-                }
+
+                if (table.Rows.Count > 0)
+                    gearSelectNum %= table.Rows.Count;
+
+                yPos = 3 + gearSelectNum * 2;
+            }
+            while (keyInfo.Key != ConsoleKey.Enter && keyInfo.Key != ConsoleKey.Escape);
+
+            if (keyInfo.Key == ConsoleKey.Escape)
+                return;
+            else if (keyInfo.Key == ConsoleKey.Enter)
+            {
+                if (player.Gears.Count == 0)
+                    return;
+
+                player.EquipGear(gearSelectNum);
+
+                Inventory();
             }
         }
 
@@ -339,19 +356,67 @@ namespace GearOverGold
         {
             Console.Clear();
 
+            ConsoleTable table = new ConsoleTable("     이 름     ", " 가 격 ", "         능 력         ", "                   설 명                   ");
+            
             for (int i = 0; i < gearsInStore.Count; ++i)
-                Console.WriteLine((i + 1) + gearsInStore[i].Info);
+                table.AddRow(gearsInStore[i].Name, gearsInStore[i].Price, gearsInStore[i].Info, gearsInStore[i].Description);
 
-            Console.Write("\n구매할 장비의 번호를 입력해주세요: ");
-            int buyNum = int.Parse(Console.ReadLine()) - 1;
+            table.Write();
+            Console.Write("\n 구매: Enter\n 뒤로가기: ESC");
 
-            player.GetGear(gearsInStore[buyNum]);
-            gearsInStore.RemoveAt(buyNum);
+            ConsoleKeyInfo keyInfo;
 
-            Console.WriteLine("\n0. 나가기");
-            Console.Write(">> ");
-            if ('0' == Console.ReadLine()[0])
-                ChooseMenu();
+            int gearSelectNum = 0;
+            int xPos = 103;
+            int yPos = 3;
+            do
+            {
+                // 그리기
+                Console.SetCursorPosition(xPos, yPos);
+                Console.Write("◀");
+
+                keyInfo = Console.ReadKey();
+
+                // 지우기
+                Console.SetCursorPosition(xPos, yPos);
+                Console.Write("  ");
+
+                if (keyInfo.Key == ConsoleKey.DownArrow)
+                    ++gearSelectNum;
+                else if (keyInfo.Key == ConsoleKey.UpArrow)
+                {
+                    if (gearSelectNum == 0)
+                        gearSelectNum = table.Rows.Count - 1;
+                    else
+                        --gearSelectNum;
+                }
+
+                if (table.Rows.Count > 0)
+                    gearSelectNum %= table.Rows.Count;
+
+                yPos = 3 + gearSelectNum * 2;
+            }
+            while (keyInfo.Key != ConsoleKey.Enter && keyInfo.Key != ConsoleKey.Escape);
+
+            // 함수 중첩 문제
+            if (keyInfo.Key == ConsoleKey.Escape)
+                return;
+            else
+            {
+                // 구매하시겠습니까?
+                if (player.Gold >= gearsInStore[gearSelectNum].Price)
+                {
+                    player.Gold -= gearsInStore[gearSelectNum].Price;
+                    player.GetGear(gearsInStore[gearSelectNum]);
+                    gearsInStore.RemoveAt(gearSelectNum);
+                }
+                else
+                {
+                    Console.WriteLine("Gold 부족");
+                    Thread.Sleep(1000);
+                }
+                Store();
+            }
         }
     }
 }
