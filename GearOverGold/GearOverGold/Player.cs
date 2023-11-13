@@ -7,7 +7,15 @@ using System.Threading.Tasks;
 
 namespace GearOverGold
 {
-    internal class Character
+    interface ICharacter
+    {
+        string Name { get; }
+        int HP { get; }
+        int AttackPower { get; }
+        bool IsDead { get; }
+        void TakeDamage(int damage);
+    }
+    internal class Player : ICharacter
     {
         public int Level { get; }
         public string Name { get; }
@@ -17,9 +25,11 @@ namespace GearOverGold
         public int HP { get; set; }
         public int MaxHP { get; set; }
         public int Gold { get; set; }
+        public bool IsDead { get; set; }
+
         public List<Gear> Gears { get; set; }
 
-        public Character(string name, int occupation)
+        public Player(string name, int occupation)
         {
             Name = name;
             Level = 1;
@@ -95,6 +105,17 @@ namespace GearOverGold
             AttackPower -= gear.IncreaseAttackPower;
             DefensePower -= gear.IncreaseDefensePower;
             MaxHP -= gear.IncreaseMaxHp;
+        }
+
+        public void TakeDamage(int damage)
+        {
+            if (damage > 0)
+                HP -= damage;
+            if (HP < 0)
+            {
+                HP = 0;
+                IsDead = true;
+            }
         }
     }
 }

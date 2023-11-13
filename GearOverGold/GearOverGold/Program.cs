@@ -11,7 +11,7 @@ namespace GearOverGold
         const int windowHeight = 40;
 
         static List<Gear> gearsInStore;
-        static Character player;
+        static Player player;
         static void Main(string[] args)
         {
             InitializeWindow();
@@ -45,10 +45,8 @@ namespace GearOverGold
                         Store();
                         break;
                     case 3:
-                        Console.SetCursorPosition(75, 35);
-                        Console.Write("업데이트 예정입니다!");
-                        Thread.Sleep(1000);
-                        continue;
+                        Dungeon();
+                        break;
                     default:
                         continue;
                 }
@@ -81,7 +79,7 @@ namespace GearOverGold
             Console.ReadLine();
         }
 
-        static Character PlayerIntialize()
+        static Player PlayerIntialize()
         {
             Console.Clear();
 
@@ -93,7 +91,7 @@ namespace GearOverGold
             DrawOccupationSelectBox();
             int occupation = SelectOccupation();
 
-            return new Character(name, occupation - 1);
+            return new Player(name, occupation - 1);
         }
 
         static void DrawSquare(int minX, int maxX, int minY, int maxY)
@@ -278,7 +276,7 @@ namespace GearOverGold
             Console.SetCursorPosition(windowWidth / 3 + 1, 12);
             Console.WriteLine("방어력:\t" + player.DefensePower);
             Console.SetCursorPosition(windowWidth / 3 + 1, 14);
-            Console.WriteLine("체력:\t" + player.MaxHP);
+            Console.WriteLine("체력:\t" + player.HP + " / " + player.MaxHP);
             Console.SetCursorPosition(windowWidth / 3 + 1, 16);
             Console.WriteLine("Gold:\t" + player.Gold);
 
@@ -394,12 +392,10 @@ namespace GearOverGold
             }
             while (keyInfo.Key != ConsoleKey.Enter && keyInfo.Key != ConsoleKey.Escape);
 
-            // 함수 중첩 문제
             if (keyInfo.Key == ConsoleKey.Escape)
                 return;
             else
             {
-                // 구매하시겠습니까?
                 if (player.Gold >= gearsInStore[gearSelectNum].Price)
                 {
                     player.Gold -= gearsInStore[gearSelectNum].Price;
@@ -413,6 +409,193 @@ namespace GearOverGold
                 }
                 Store();
             }
+        }
+
+        static void Dungeon()
+        {
+            Stage stage = new Stage(player.Level);
+            List<Monster> monsters = stage.MonstersInStage;
+
+            for (int i = 0; i < monsters.Count; ++i)
+            {
+                Console.Clear();
+                DrawSquare(25, 85, 1, 25);
+
+                if (monsters[i].Name == "Goblin")
+                {
+                    string goblinArt = "\\.\r\n \\\\      .\r\n  \\\\ _,.+;)_\r\n  .\\\\;~%:88%%.\r\n (( a   `)9,8;%.\r\n /`   _) ' `9%%%?\r\n(' .-' j    '8%%'\r\n `\"+   |    .88%)+._____..,,_   ,+%$%.\r\n       :.   d%9`             `-%*'\"'~%$.\r\n    ___(   (%C                 `.   68%%9\r\n  .\"        \\7                  ;  C8%%)`\r\n  : .\"-.__,'.____________..,`   L.  \\86' ,\r\n  : L    : :            `  .'\\.   '.  %$9%)\r\n  ;  -.  : |             \\  \\  \"-._ `. `~\"\r\n   `. !  : |              )  >     \". ?\r\n     `'  : |            .' .'       : |\r\n         ; !          .' .'         : |\r\n        ,' ;         ' .'           ; (\r\n       .  (         j  (            `  \\\r\n       \"\"\"'          \"\"'             `\"\" ";
+                    DrawArt(goblinArt, 34, 4);
+                }
+                else if (monsters[i].Name == "Dragon")
+                {
+                    string dragonArt = "                      ^\\    ^                  \r\n                      / \\\\  / \\                 \r\n                     /.  \\\\/   \\      |\\___/|   \r\n  *----*           / / |  \\\\    \\  __/  O  O\\   \r\n  |   /          /  /  |   \\\\    \\_\\/  \\     \\     \r\n / /\\/         /   /   |    \\\\   _\\/    '@___@ \r\n/  /         /    /    |     \\\\ _\\/       |U\r\n|  |       /     /     |      \\\\\\/        |\r\n\\  |     /_     /      |       \\\\  )   \\ _|_\r\n\\   \\       ~-./_ _    |    .- ; (  \\_ _ _,\\'\r\n~    ~.           .-~-.|.-*      _        {-,\r\n \\      ~-. _ .-~                 \\      /\\'\r\n  \\                   }            {   .*\r\n   ~.                 '-/        /.-~----.\r\n     ~- _             /        >..----.\\\\\\\r\n         ~ - - - - ^}_ _ _ _ _ _ _.-\\\\\\";
+                    DrawArt(dragonArt, 32, 4);
+                }
+
+                while (player.HP != 0 && monsters[i].HP != 0)
+                {
+                    Console.SetCursorPosition(76, 22);
+                    Console.Write("HP: " + monsters[i].HP);
+
+                    Console.SetCursorPosition(25, 27);
+                    Console.Write("공격하기");
+                    Console.SetCursorPosition(52, 27);
+                    Console.Write("방어하기");
+                    Console.SetCursorPosition(78, 27);
+                    Console.Write("도망치기");
+
+                    Console.SetCursorPosition(48, 30);
+                    Console.Write("Player HP: " + player.HP);
+
+                    int selectNum = SelectBattle();
+
+                    if (selectNum == 0)
+                    {
+                        monsters[i].TakeDamage(player.AttackPower);
+
+                        Console.SetCursorPosition(76, 22);
+                        Console.Write("         ");
+                        Console.SetCursorPosition(76, 22);
+                        Console.Write("HP: " + monsters[i].HP);
+                        Thread.Sleep(1000);
+
+                        if (monsters[i].HP > 0)
+                        {
+                            player.TakeDamage(monsters[i].AttackPower);
+                            
+                            Thread.Sleep(1000);
+                            Console.SetCursorPosition(48, 30);
+                            Console.Write("                ");
+                        }
+                    }
+                    else if (selectNum == 1)
+                    {
+                        player.TakeDamage(monsters[i].AttackPower - player.DefensePower);
+                        Thread.Sleep(1000);
+                    }
+                    else return;
+                }
+                if (player.HP == 0)
+                {
+                    Console.SetCursorPosition(46, 35);
+                    Console.Write("몬스터에게 패 했습니다.");
+                    Thread.Sleep(1000);
+                    return;
+                }
+                else
+                {
+                    Console.SetCursorPosition(46, 35);
+                    Console.Write("몬스터를 이겼습니다!");
+                    Console.SetCursorPosition(48, 37);
+                    Console.Write(monsters[i].GoldReward + " Gold 획득");
+                    player.Gold += monsters[i].GoldReward;
+
+                    Thread.Sleep(1500);
+
+                    SelectReward();
+                }
+            }
+        }
+
+        static int SelectBattle()
+        {
+            ConsoleKeyInfo keyInfo;
+
+            int selectNum = 0;
+            int xPos = 22;
+            int yPos = 27;
+            do
+            {
+                // 그리기
+                Console.SetCursorPosition(xPos - 2, yPos);
+                Console.Write("▶");
+
+                keyInfo = Console.ReadKey();
+
+                // 지우기
+                Console.SetCursorPosition(xPos - 2, yPos);
+                Console.Write("  ");
+
+                if (keyInfo.Key == ConsoleKey.RightArrow)
+                    ++selectNum;
+                else if (keyInfo.Key == ConsoleKey.LeftArrow)
+                {
+                    if (selectNum == 0)
+                        selectNum = 2;
+                    else 
+                        --selectNum;
+                }
+
+                if (selectNum > 2)
+                    selectNum %= 3;
+
+                if (selectNum == 0) xPos = 23;
+                else if (selectNum == 1) xPos = 50;
+                else xPos = 76;
+            }
+            while (keyInfo.Key != ConsoleKey.Enter);
+
+            return selectNum;
+        }
+
+        static void SelectReward()
+        {
+            Console.Clear();
+            Console.SetCursorPosition(45, 15);
+            Console.Write("보상을 선택해주세요.");
+            Console.SetCursorPosition(35, 20);
+            Console.Write("HP 50 회복");
+            Console.SetCursorPosition(60, 20);
+            Console.Write("공격력 10 상승");
+
+            ConsoleKeyInfo keyInfo;
+
+            int selectNum = 0;
+            int xPos = 33;
+            int yPos = 20;
+            do
+            {
+                // 그리기
+                Console.SetCursorPosition(xPos, yPos);
+                Console.Write("▶");
+
+                keyInfo = Console.ReadKey();
+
+                // 지우기
+                Console.SetCursorPosition(xPos, yPos);
+                Console.Write("  ");
+
+                if (keyInfo.Key == ConsoleKey.RightArrow)
+                    ++selectNum;
+                else if (keyInfo.Key == ConsoleKey.LeftArrow)
+                {
+                    if (selectNum == 0)
+                        selectNum = 1;
+                    else
+                        --selectNum;
+                }
+
+                if (selectNum > 1)
+                    selectNum %= 2;
+
+                if (selectNum == 0) xPos = 33;
+                else xPos = 58;
+            }
+            while (keyInfo.Key != ConsoleKey.Enter);
+
+            if(selectNum == 0)
+            {
+                HealthPotion potion = new HealthPotion();
+                potion.Use(player);
+                if (player.HP > player.MaxHP)
+                    player.HP = player.MaxHP;
+            }
+            else
+            {
+                StrengthPotion potion = new StrengthPotion();
+                potion.Use(player);
+            }
+                
         }
     }
 }

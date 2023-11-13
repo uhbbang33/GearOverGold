@@ -13,16 +13,15 @@ namespace GearOverGold
         int DefaultHP { get; }
     }
     
-    // class나 struct로 구현하는 것이 좋을까?
     struct Warrior : OccupationInitializer
     {
         public int DefaultAttackPower
         {
-            get { return 100; }
+            get { return 20; }
         }
         public int DefaultDefensePower
         {
-            get { return 100; }
+            get { return 20; }
         }
         public int DefaultHP
         {
@@ -34,11 +33,11 @@ namespace GearOverGold
     {
         public int DefaultAttackPower
         {
-            get { return 50; }
+            get { return 15; }
         }
         public int DefaultDefensePower
         {
-            get { return 125; }
+            get { return 25; }
         }
         public int DefaultHP
         {
@@ -50,15 +49,15 @@ namespace GearOverGold
     {
         public int DefaultAttackPower
         {
-            get { return 150; }
+            get { return 35; }
         }
         public int DefaultDefensePower
         {
-            get { return 75; }
+            get { return 15; }
         }
         public int DefaultHP
         {
-            get { return 75; }
+            get { return 80; }
         }
     }
 

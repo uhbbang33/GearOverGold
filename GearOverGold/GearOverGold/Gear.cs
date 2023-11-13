@@ -34,11 +34,10 @@ namespace GearOverGold
 
         string IncreaseAbility()
         {
-            string gearAbility = "";//"- " + Name + "  " + Price;
+            string gearAbility = "";
             if (IncreaseAttackPower != 0)   gearAbility += (" 공격력 +" + IncreaseAttackPower);
             if (IncreaseDefensePower != 0)  gearAbility += (" 방어력 +" + IncreaseDefensePower);
             if (IncreaseMaxHp != 0)         gearAbility += (" 최대 HP +" + IncreaseMaxHp);
-            //gearAbility += Description;
 
             return gearAbility;
         }
