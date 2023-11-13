@@ -1,6 +1,7 @@
 ﻿using ConsoleTables;
 using System.Data;
 using System.Numerics;
+using System.Text;
 
 namespace GearOverGold
 {
@@ -58,11 +59,10 @@ namespace GearOverGold
         {
             Console.Title = "GearOverGold";
             Console.SetWindowSize(windowWidth, windowHeight);
-            //Console.BackgroundColor = ConsoleColor.DarkCyan;  // 배경 색깔
-            //Console.ForegroundColor = ConsoleColor.Green;     // 글씨 색깔
-            
+            Console.BackgroundColor = ConsoleColor.DarkCyan;  // 배경 색깔
+            Console.ForegroundColor = ConsoleColor.Yellow;     // 글씨 색깔
             Console.CursorVisible = false;
-
+            Console.OutputEncoding = Encoding.UTF8;
             Console.Clear();
         }
 
@@ -117,14 +117,10 @@ namespace GearOverGold
         static void DrawArt(string artString, int startXPos, int startYPos)
         {
             Console.SetCursorPosition(startXPos, startYPos);
-            int cnt = 0;
             foreach (char c in artString)
             {
                 if (c == '\n')
-                {
-                    Console.SetCursorPosition(startXPos, startYPos + cnt);
-                    ++cnt;
-                }
+                    Console.SetCursorPosition(startXPos, ++startYPos);
                 else Console.Write(c);
             }
         }
