@@ -1,5 +1,9 @@
 # 돈 보다 장비 ( Gear Over Gold )
 
+![image](https://github.com/uhbbang33/GearOverGold/assets/55686424/cf900552-35fe-4a86-ba1b-55e6700330a6)
+
+
+
 ### 프로젝트 소개
 
 던전에 가기 전, 마을에서 장비를 구매하는 Text RPG 게임입니다.
